@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\HomeWork\\ClothesWeb\\BackEnd\\ClothesWeb\\ClothesWeb.csproj": {}
+    "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\ClothesWeb.csproj": {}
   },
   "projects": {
-    "D:\\HomeWork\\ClothesWeb\\BackEnd\\ClothesWeb\\ClothesWeb.csproj": {
+    "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\ClothesWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HomeWork\\ClothesWeb\\BackEnd\\ClothesWeb\\ClothesWeb.csproj",
+        "projectUniqueName": "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
         "projectName": "ClothesWeb",
-        "projectPath": "D:\\HomeWork\\ClothesWeb\\BackEnd\\ClothesWeb\\ClothesWeb.csproj",
+        "projectPath": "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
         "packagesPath": "C:\\Users\\HaoQuy\\.nuget\\packages\\",
-        "outputPath": "D:\\HomeWork\\ClothesWeb\\BackEnd\\ClothesWeb\\obj\\",
+        "outputPath": "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HaoQuy\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,18 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "AutoMapper.Data": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[6.0.15, )"
@@ -48,7 +60,19 @@
               "target": "Package",
               "version": "[7.0.5, )"
             },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.5, )"
             },
@@ -63,6 +87,10 @@
             "Swashbuckle.AspNetCore.Filters": {
               "target": "Package",
               "version": "[6.1.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
             }
           },
           "imports": [
@@ -84,7 +112,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }
