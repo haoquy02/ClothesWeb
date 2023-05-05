@@ -3,6 +3,7 @@ using ClothesWeb.Models;
 using Microsoft.Data.SqlClient;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Net;
+using System.Data;
 
 namespace ClothesWeb.Repository.Clothes
 {
@@ -45,14 +46,14 @@ namespace ClothesWeb.Repository.Clothes
             throw new NotImplementedException();
         }
 
-        public async Task<ClothesDB> GetPost(ClothesDB clothesInfo)
+        public async Task<ClothesDB> GetPost(int clothesID)
         {
             var connection = _context.GetDbConnection();
-            ClothesDB clothes = new ClothesDB();
+            ClothesDB clothes = new();
             connection.Open();
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "Select * From Account Where Username = '" + clothesInfo.ClothesName + "'";
+                command.CommandText = "Select * From Clothes Where id = " + clothesID + "";
                 var reader = command.ExecuteReader();
                 await reader.ReadAsync();
                 if (reader.HasRows)
@@ -88,6 +89,23 @@ namespace ClothesWeb.Repository.Clothes
             }
             connection.Close();
             return "Update Post Successful";
+        }
+        public async Task<List<ClothesDB>> GetAllPost()
+        {
+            var connection = _context.GetDbConnection();
+            connection.Open();
+            List<ClothesDB> listClothes = new();
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "Select * From Clothes";
+                var reader = command.ExecuteReader();
+                while (await reader.ReadAsync())
+                {
+                    listClothes.Add(_mapper.Map<IDataReader, ClothesDB>(reader));
+                }
+            }
+            connection.Close();
+            return listClothes;
         }
     }
 }

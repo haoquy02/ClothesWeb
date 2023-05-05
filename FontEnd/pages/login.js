@@ -1,10 +1,9 @@
-import React from "react";
+import React, { Component, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
 // core components
 import Header from "/components/Header/Header.js";
@@ -20,16 +19,73 @@ import CardFooter from "/components/Card/CardFooter.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";
+import Link from "next/link";
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import { ENDPOINTS, createAPIEndpoint } from "../api";
+import Router from "next/router";
 
 const useStyles = makeStyles(styles);
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const [userName, setUserName] = useState("")
+  const [password, setPassword] = useState("")
+  const [showError, setshowError] = useState(true)
+  const [errorName, setErrorName] = useState(false)
+  const [errorPassword, setErrorPassword] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [notification, setNotification] = useState(false)
+  const hadleInputUserNameChange = e =>{
+    const {value} = e.target
+    setUserName(value)
+  }
+  const hadleInputPassword= e =>{
+    const {value} = e.target
+    setPassword(value)
+  }
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+  const Login = () => {
+    if(userName === "")
+    {
+      setErrorName(true);
+      setNotification("Username cannot empty")
+      setshowError(false)
+    }
+    else if (password == "")
+    {
+      setErrorPassword(true);
+      setNotification("Password cannot empty")
+      setshowError(false)
+    }
+    else
+    {
+      createAPIEndpoint(ENDPOINTS.login)
+      .getLogin(
+        {
+          userName: userName,
+          password: password
+        }
+      ).then(res =>{
+          if(res.data.status === "Username not found" || res.data.status  === "Password not correct")
+          {
+            setModal(true);
+            setNotification(res.data.status)
+          }
+          else
+          {
+            Router.push('/all-Clothes/');
+          }        
+      })
+    }
+    
+  }
   return (
     <div>
       <Header
@@ -54,46 +110,18 @@ export default function LoginPage(props) {
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
                     <h4>Login</h4>
-                    <div className={classes.socialLine}>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className={"fab fa-twitter"} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className={"fab fa-facebook"} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className={"fab fa-google-plus-g"} />
-                      </Button>
-                    </div>
                   </CardHeader>
-                  <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
                     <CustomInput
-                      labelText="First Name..."
-                      id="first"
+                      labelText="User Name..."
+                      id="Username"
+                      error={errorName} 
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
                         type: "text",
+                        onChange: hadleInputUserNameChange,
                         endAdornment: (
                           <InputAdornment position="end">
                             <People className={classes.inputIconsColor} />
@@ -102,28 +130,15 @@ export default function LoginPage(props) {
                       }}
                     />
                     <CustomInput
-                      labelText="Email..."
-                      id="email"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "email",
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Email className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
                       labelText="Password"
                       id="pass"
+                      error={errorPassword}  
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
                         type: "password",
+                        onChange: hadleInputPassword,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -135,11 +150,61 @@ export default function LoginPage(props) {
                       }}
                     />
                   </CardBody>
+                  <h4 style={{color: "red",marginLeft: 35}} hidden={showError}>
+                        {notification}
+                    </h4>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
-                      Get started
-                    </Button>
+                      <Button simple color="primary" size="lg" onClick = {Login}>
+                        Login
+                      </Button>
+                    <Link href='/createAccount/'>
+                      <Button simple color="primary" size="lg">
+                        Create Account
+                      </Button>
+                    </Link>
                   </CardFooter>
+                  <Dialog
+                      classes={{
+                        root: classes.center,
+                        paper: classes.modal
+                      }}
+                      open={modal}
+                      TransitionComponent={Transition}
+                      keepMounted
+                      onClose={() => setModal(false)}
+                      aria-labelledby="modal-slide-title"
+                      aria-describedby="modal-slide-description"
+                    >
+                      <DialogTitle
+                        id="classic-modal-slide-title"
+                        disableTypography
+                        className={classes.modalHeader}
+                      >
+                        <IconButton
+                          className={classes.modalCloseButton}
+                          key="close"
+                          aria-label="Close"
+                          color="inherit"
+                          onClick={() => setModal(false)}
+                        >
+                          <Close className={classes.modalClose} />
+                        </IconButton>
+                        <h4 className={classes.modalTitle}>Notification</h4>
+                      </DialogTitle>
+                      <DialogContent
+                        id="modal-slide-description"
+                        className={classes.modalBody}
+                      >
+                        <h5>{notification}</h5>
+                      </DialogContent>
+                      <DialogActions
+                        className={classes.modalFooter + " " + classes.modalFooterCenter}
+                      >
+                        <Button color="danger"onClick={() => setModal(false)}>
+                          Yes
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                 </form>
               </Card>
             </GridItem>

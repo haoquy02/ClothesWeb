@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DU6EUsPNTp4hQQamkcn+XcSD0ag+lB5fyj1ullhoHOtvRl3hjgWCV6kfx1Md1MdEjd5SYWYf3HvCejlWQj+w1g==",
+  "dgSpecHash": "TpoLmLILix/248Y/FGricWqXSjUVvpo2qg6HfbcrNjc0afM+tvvG9kpCoIXV9gjd1z1x/18ndgpESIqYfrzpcQ==",
   "success": true,
-  "projectFilePath": "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
+  "projectFilePath": "D:\\HomeWork\\ClothesWebHardVesion\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HaoQuy\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\HaoQuy\\.nuget\\packages\\automapper.data\\7.0.2\\automapper.data.7.0.2.nupkg.sha512",

@@ -1,4 +1,5 @@
 ﻿using ClothesWeb.Dto.Account;
+using ClothesWeb.Dto.Clothes;
 using ClothesWeb.Models;
 using ClothesWeb.Services.Account;
 using ClothesWeb.Services.Clothes;
@@ -31,6 +32,18 @@ namespace ClothesWeb.Controllers
                 result = await _clothesServices.CreatePost(clothesCreateInfo);
                 return Ok(result);
             }
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<ClothesHalfInfo>>> GetAllPost()
+        {
+            var result = await _clothesServices.GetAllClothes();
+            return Ok(result);
+        }
+        [HttpGet("ClothesId")]
+        public async Task<ActionResult<ClothesDB>> GetClothesByName(int ClothesId)
+        {
+            var result = await _clothesServices.GetClothesByName(ClothesId);
+            return Ok(result);
         }
 
     }

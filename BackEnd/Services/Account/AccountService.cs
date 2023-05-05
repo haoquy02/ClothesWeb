@@ -67,7 +67,7 @@ namespace ClothesWeb.Services.Account
             string result;
             var account = _mapper.Map<AccountDB>(accountCreateInfo);
             var temp = await _accountRespository.GetAccount(account);
-            if (temp != null)
+            if (temp.id == 0)
             {
                 CreatePasswordHash(accountCreateInfo.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 result = await _accountRespository.CreateAccountDB(account, passwordHash, passwordSalt);

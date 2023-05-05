@@ -1,10 +1,17 @@
-import { container, title } from "/styles/jss/nextjs-material-kit.js";
+import { container, title,containerList } from "/styles/jss/nextjs-material-kit.js";
 
 const landingPageStyle = {
   container: {
     zIndex: "12",
     color: "#FFFFFF",
-    ...container
+    ...container,
+  },
+  containerList:{
+    zIndex: "12",
+    color: "#FFFFFF",
+    ...containerList,
+    marginRight: "0px",
+    marginLeft: "0px",
   },
   title: {
     ...title,

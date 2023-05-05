@@ -18,7 +18,7 @@ namespace ClothesWeb
             CreateMap<IDataRecord, AccountDB>();
             //Clothes Mapping
             CreateMap<IDataRecord, ClothesDB>();
-            CreateMap<ClothesDB, ClothesHaftInfo>();
+            CreateMap<ClothesDB, ClothesHalfInfo>();
         }
     }
 }

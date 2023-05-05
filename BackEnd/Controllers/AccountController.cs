@@ -39,7 +39,7 @@ namespace ClothesWeb.Controllers
             var options = new CookieOptions
             {
                 Expires = DateTime.Now.AddDays(1),
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Secure = true,
                 HttpOnly = true,
                 IsEssential = true,

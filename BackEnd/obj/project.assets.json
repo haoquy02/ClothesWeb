@@ -4216,11 +4216,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
+      "projectUniqueName": "D:\\HomeWork\\ClothesWebHardVesion\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
       "projectName": "ClothesWeb",
-      "projectPath": "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
+      "projectPath": "D:\\HomeWork\\ClothesWebHardVesion\\ClothesWeb\\BackEnd\\ClothesWeb.csproj",
       "packagesPath": "C:\\Users\\HaoQuy\\.nuget\\packages\\",
-      "outputPath": "D:\\HomeWork\\ClothesWeb\\ClothesWeb\\BackEnd\\obj\\",
+      "outputPath": "D:\\HomeWork\\ClothesWebHardVesion\\ClothesWeb\\BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HaoQuy\\AppData\\Roaming\\NuGet\\NuGet.Config",
