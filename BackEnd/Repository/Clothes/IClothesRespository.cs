@@ -5,10 +5,12 @@ namespace ClothesWeb.Repository.Clothes
 {
     public interface IClothesRespository
     {
-        public Task<ClothesDB> GetPost(int clothesID);
-        public Task<string> CreatePost(ClothesDB clothesDB);
-        public Task<string> UpdatePost(ClothesDB clothesDB);
-        public Task<string> DeletePost(ClothesDB clothesDB);
-        public Task<List<ClothesDB>> GetAllPost();
+        public Task<ClothesDB> GetClothes(int clothesID);
+        public Task<string> CreateClothes(ClothesDB clothesDB);
+        public Task<string> UpdateClothes(ClothesDB clothesDB);
+        public Task<string> DeleteClothes(ClothesDB clothesDB);
+        public Task<List<ClothesDB>> GetAllClothes();
+        public Task<bool> UpdateQuantity(int quantity, int id);
+        public Task<ClothesDB> GetClothesCartById(int id);
     }
 }

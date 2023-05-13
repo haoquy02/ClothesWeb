@@ -4,11 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Header from "/components/Header/Header.js";
 import Footer from "/components/Footer/Footer.js";
-import GridContainer from "/components/Grid/GridContainer.js";
-import GridItem from "/components/Grid/GridItem.js";
-import Button from "/components/CustomButtons/Button.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
-import Parallax from "/components/Parallax/Parallax.js";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/landingPage.js";
 import { useRouter } from "next/router";
@@ -25,7 +21,7 @@ export default function ClothesItem() {
   const ClothesID = ClothesNameAndID.split("-")[1]
   useEffect(()=> {
     createAPIEndpoint(ENDPOINTS.getClothes)
-    .fetchwithName(ClothesID)
+    .fetchWithName(ClothesID)
     .then(res => {
       setItem(res.data)
     })
@@ -43,8 +39,8 @@ export default function ClothesItem() {
             color: "dark"
           }}          
         />
-        <div style={{marginTop:"50px"}}>
-            {item && <ClothesDetail items={item}/>}
+        <div style={{marginTop:"10%", marginLeft:"150px"}}>
+            {item && <ClothesDetail clothes={item}/>}
         </div>
       <Footer />
       </div>

@@ -21,7 +21,7 @@ export default function ListClothes() {
     classes.imgFluid
   );
   useEffect(()=> {
-    createAPIEndpoint(ENDPOINTS.getClothes)
+    createAPIEndpoint(ENDPOINTS.getAllClothes)
     .fetch()
     .then(res => {
         setClothes(res.data)

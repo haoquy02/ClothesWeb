@@ -16,7 +16,7 @@ namespace ClothesWeb.Repository.Clothes
             _context = context;
             _mapper = mapper;
         }
-        public async Task<string> CreatePost(ClothesDB clothesCreateInfo)
+        public async Task<string> CreateClothes(ClothesDB clothesCreateInfo)
         {
             var connection = _context.GetDbConnection();
             connection.Open();
@@ -41,12 +41,12 @@ namespace ClothesWeb.Repository.Clothes
             return "Create Post Successful";
         }
 
-        public Task<string> DeletePost(ClothesDB clothesDB)
+        public Task<string> DeleteClothes(ClothesDB clothesDB)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ClothesDB> GetPost(int clothesID)
+        public async Task<ClothesDB> GetClothes(int clothesID)
         {
             var connection = _context.GetDbConnection();
             ClothesDB clothes = new();
@@ -64,8 +64,26 @@ namespace ClothesWeb.Repository.Clothes
             connection.Close();
             return clothes;
         }
+        public async Task<ClothesDB> GetClothesCartById(int clothesID)
+        {
+            ClothesDB clothesCart = new(); ;
+            var connection = _context.GetDbConnection();
+            connection.Open();
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "Select * From Clothes Where id = " + clothesID + "";
+                var reader = command.ExecuteReader();
+                await reader.ReadAsync();
+                if (reader.HasRows)
+                {
+                    clothesCart = _mapper.Map<ClothesDB>(reader);
+                }
+            }
+            connection.Close();
+            return clothesCart;
+        }
 
-        public async Task<string> UpdatePost(ClothesDB clothesUpdateInfo)
+        public async Task<string> UpdateClothes(ClothesDB clothesUpdateInfo)
         {
             var connection = _context.GetDbConnection();
             connection.Open();
@@ -90,7 +108,7 @@ namespace ClothesWeb.Repository.Clothes
             connection.Close();
             return "Update Post Successful";
         }
-        public async Task<List<ClothesDB>> GetAllPost()
+        public async Task<List<ClothesDB>> GetAllClothes()
         {
             var connection = _context.GetDbConnection();
             connection.Open();
@@ -106,6 +124,44 @@ namespace ClothesWeb.Repository.Clothes
             }
             connection.Close();
             return listClothes;
+        }
+
+        public async Task<bool> UpdateQuantity(int quantity, int id)
+        {
+            var maxQuantity = 0;
+            var connection = _context.GetDbConnection();
+            connection.Open();
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "Select Quantity From Clothes Where id = " + id + "";
+                var reader = command.ExecuteReader();
+                await reader.ReadAsync();
+                if (reader.HasRows)
+                {
+                    maxQuantity = (int)reader["Quantity"];
+                }
+            }
+            connection.Close();
+            connection.Open();
+            if (maxQuantity > 0 && maxQuantity > quantity)
+            {
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = (SqlConnection)connection;
+                    command.CommandText =
+                     "Update Clothes SET Quantity= @Quant WHERE id = @id";
+                    command.Parameters.AddWithValue("@Quant", maxQuantity - quantity);
+                    command.Parameters.AddWithValue("@id", id);
+                    await command.ExecuteScalarAsync();
+                }
+                connection.Close();
+                return true;
+            }
+            else
+            {
+                connection.Close();
+                return false;
+            }
         }
     }
 }

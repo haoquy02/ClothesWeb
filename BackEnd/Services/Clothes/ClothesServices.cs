@@ -21,20 +21,20 @@ namespace ClothesWeb.Services.Clothes
             _mapper = mapper;
         }
 
-        public async Task<string> CreatePost(ClothesDB clothesInfo)
+        public async Task<string> CreateClothes(ClothesDB clothesInfo)
         {
             string result;
-            var temp = await _clothesRespository.GetPost(clothesInfo.id);
+            var temp = await _clothesRespository.GetClothes(clothesInfo.id);
             if (temp != null)
             {
-                result = await _clothesRespository.CreatePost(clothesInfo);
+                result = await _clothesRespository.CreateClothes(clothesInfo);
                 return result;
             }
             return "Clothes already exits";
         }
         public async Task<List<ClothesHalfInfo>> GetAllClothes()
         {
-            var result = await _clothesRespository.GetAllPost();
+            var result = await _clothesRespository.GetAllClothes();
             List<ClothesHalfInfo> listClothesInfo = new();
             foreach (var clothesInfo in result)
             {
@@ -42,11 +42,14 @@ namespace ClothesWeb.Services.Clothes
             }
             return listClothesInfo;
         }
-        public async Task<ClothesDB> GetClothesByName(int ClothesId)
+        public async Task<ClothesDB> GetClothesById(int ClothesId)
         {
-            ClothesDB temp = await _clothesRespository.GetPost(ClothesId);
-            return temp;
+            return await _clothesRespository.GetClothes(ClothesId);
         }
-
+        public async Task<ClothesCart> GetClothesCartById(int ClothesId)
+        {
+            var clothesDB = await _clothesRespository.GetClothesCartById(ClothesId);
+            return _mapper.Map<ClothesCart>(clothesDB);
+        }
     }
 }

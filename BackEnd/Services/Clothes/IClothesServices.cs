@@ -6,8 +6,9 @@ namespace ClothesWeb.Services.Clothes
 {
     public interface IClothesServices
     {
-        public Task<string> CreatePost(ClothesDB clothesInfo);
+        public Task<string> CreateClothes(ClothesDB clothesInfo);
         public Task<List<ClothesHalfInfo>> GetAllClothes();
-        public Task<ClothesDB> GetClothesByName(int ClothesId);
+        public Task<ClothesDB> GetClothesById(int ClothesId);
+        public Task<ClothesCart> GetClothesCartById(int clothesId);
     }
 }

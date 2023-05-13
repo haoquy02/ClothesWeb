@@ -2,8 +2,10 @@ using AutoMapper.Data;
 using ClothesWeb.Models;
 using ClothesWeb.Repository.Account;
 using ClothesWeb.Repository.Clothes;
+using ClothesWeb.Repository.Order;
 using ClothesWeb.Services.Account;
 using ClothesWeb.Services.Clothes;
+using ClothesWeb.Services.Order;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -35,6 +37,8 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountRespository, AccountRespository>();
 builder.Services.AddScoped<IClothesServices, ClothesServices>();
 builder.Services.AddScoped<IClothesRespository, ClothesRespository>();
+builder.Services.AddScoped<IOrderServices, OrderServices>();
+builder.Services.AddScoped<IOrderRespository, OrderRespository>();
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //.AddCookie(x =>
 //{

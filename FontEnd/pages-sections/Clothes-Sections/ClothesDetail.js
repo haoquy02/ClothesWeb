@@ -1,38 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "/styles/jss/nextjs-material-kit/pages/landingPageSections/teamStyle.js";
 import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import Card from "/components/Card/Card.js";
-import CustomInput from "/components/CustomInput/CustomInput.js";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-import { Button, ButtonGroup, Input, Radio } from "@material-ui/core";
-import { AddShoppingCartSharp, Label } from "@material-ui/icons";
+import { Button } from "@material-ui/core";
+import { AddShoppingCartSharp } from "@material-ui/icons";
+import { ENDPOINTS, createAPIEndpoint } from "../../api";
 const useStyles = makeStyles(styles);
 const BASE_URL = "/img/clothes/"
-export default function ClothesDetail(items) {
+export default function ClothesDetail(detail) {
     const classes = useStyles();
     const [quantity,setQuantity] = useState(0);
-    const size = items.items.size.split(",");
+    const size = detail.clothes.size.split(",");
 
     const imageClasses = classNames(
         classes.imgRaised,
         classes.imgFluid
       );
-    const hadleQuantity = e =>{
+    const handleQuantity = e =>{
         const {value} = e.target
+        if (value > detail.clothes.quantity)
+        {
+            document.querySelector('input[name="quantity"]').value = detail.clothes.quantity
+        }
+        else if (value < 0)
+        {
+            document.querySelector('input[name="quantity"]').value = 0
+        }
         setQuantity(value)
     }
     const addToCart = () => {
         var size = document.querySelector('input[name="size"]:checked').value;
+        createAPIEndpoint(ENDPOINTS.Order)
+        .post({
+            AccountId: 1,
+            ClothesId: detail.clothes.id,
+            Quantity: quantity,
+            Size: size,
+            Status: "Trong giỏ hàng"
+        })
+        .then(res =>{
+            console.log(res.data)
+        })
     }
     return (
         <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
                 <Card plain>
                     <img
-                    src= {BASE_URL + items.items.image}
+                    src= {BASE_URL + detail.clothes.image}
                     alt="..."
                     className={imageClasses}
                     />
@@ -40,10 +59,10 @@ export default function ClothesDetail(items) {
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
                 <Card plain>
-                   <h1>{items.items.clothesName}</h1>
-                   <h2>${items.items.prices}.000 VNĐ</h2>
+                   <h1>{detail.clothes.clothesName}</h1>
+                   <h2>${detail.clothes.prices}.000 VNĐ</h2>
                 </Card>
-                <input type="number" id="quantity" min="0" max={items.items.quantity} style={{width: 120, height: 30}} onClick={hadleQuantity}/>
+                <input type="number" id="quantity" name="quantity" min="0" max={detail.clothes.quantity} style={{width: 120, height: 30}} onChange={handleQuantity}/>
                 <br/>
                 {size.map(item => {
                     return (
