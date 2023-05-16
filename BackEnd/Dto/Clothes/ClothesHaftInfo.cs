@@ -8,5 +8,6 @@
         public string Image { get; set; } = string.Empty;
         public string Size { get; set; } = string.Empty;
         public string Color { get; set; } = string.Empty;
+        public int Quantity { get; set; }
     }
 }

@@ -17,7 +17,14 @@ namespace ClothesWeb.Services.Order
         }
         public async Task<string> CreateOrder(OrderDB orderInfo)
         {
-            return await _orderRespository.CreateOrderDB(orderInfo);
+            if (await _orderRespository.IsOrderExtis(orderInfo))
+            {
+                return await _orderRespository.UpdateOrderQuantity(orderInfo);
+            }
+            else
+            {
+                return await _orderRespository.CreateOrderDB(orderInfo);
+            }  
         }
 
         public async Task<List<OrderDB>> GetAllOrdersById(int accountId)

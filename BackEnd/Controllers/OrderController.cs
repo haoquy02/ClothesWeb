@@ -27,6 +27,8 @@ namespace ClothesWeb.Controllers
             }
             else
             {
+                var accountId = int.Parse(Request.Cookies["id"]);
+                orderCreateInfo.AccountId = accountId;
                 result = await _orderService.CreateOrder(orderCreateInfo);
                 return Ok(result);
             }

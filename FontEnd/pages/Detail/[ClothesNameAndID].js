@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Header from "/components/Header/Header.js";
 import Footer from "/components/Footer/Footer.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 
-import styles from "/styles/jss/nextjs-material-kit/pages/landingPage.js";
 import { useRouter } from "next/router";
 import { ENDPOINTS, createAPIEndpoint } from "../../api";
 import ClothesDetail from "../../pages-sections/Clothes-Sections/ClothesDetail"; 
 
-const useStyles = makeStyles(styles);
 const dashboardRoutes = [];
 export default function ClothesItem() {
   const [item, setItem] = useState(null);
-  const classes = useStyles();
   const router = useRouter()
   const { ClothesNameAndID } = router.query
   const ClothesID = ClothesNameAndID.split("-")[1]

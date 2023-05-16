@@ -143,7 +143,7 @@ namespace ClothesWeb.Repository.Clothes
             }
             connection.Close();
             connection.Open();
-            if (maxQuantity > 0 && maxQuantity > quantity)
+            if (maxQuantity > 0 && maxQuantity >= quantity)
             {
                 using (var command = new SqlCommand())
                 {

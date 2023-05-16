@@ -8,6 +8,6 @@
         public int Quantity { get; set; }
         public string Size { get; set; }  =string.Empty;
         public string Color { get; set; } = string.Empty;   
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
     }
 }

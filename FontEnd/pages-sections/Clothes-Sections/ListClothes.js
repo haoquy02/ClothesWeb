@@ -27,6 +27,17 @@ export default function ListClothes() {
         setClothes(res.data)
     })
   },[])
+  const TurnOSSOn = (item) =>
+  {
+    if(item.quantity == 0)
+    {
+      document.querySelector('div[name="'+item.id+'"]').hidden = false;
+    }
+  }
+  const TurnOSSOff = (item) =>
+  {
+    document.querySelector('div[name="'+item.id+'"]').hidden = true;
+  }
   return (
     <div className={classes.section}>
       <h2 className={classes.title}>Here is our clothes</h2>
@@ -42,8 +53,27 @@ export default function ListClothes() {
                         src= {BASE_URL + item.image}
                         alt="..."
                         className={imageClasses}
+                        onMouseEnter={() => TurnOSSOn(item)}
+                        onMouseLeave={() => TurnOSSOff(item)}
                       />
                       </a>
+                      <div
+                      hidden={true}
+                      name={item.id} 
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "100%",
+                        width: "100%",
+                        opacity: 1,
+                        transition: ".5s ease",
+                        backgroundColor: "red",
+                      }}>
+                        <div style={{textAlign: "center", fontSize:"20px", margin:"25%"}}>Out of stock</div>
+                      </div>
                     </GridItem>
                     <a href={"/Detail/"+item.clothesName}>
                     <h4 className={classes.cardTitle}>{item.clothesName}</h4>

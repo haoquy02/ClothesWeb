@@ -2,6 +2,7 @@
 using ClothesWeb.Models;
 using ClothesWeb.Repository.Clothes;
 using Microsoft.Data.SqlClient;
+using Microsoft.Identity.Client;
 using System.Data;
 
 namespace ClothesWeb.Repository.Order
@@ -37,7 +38,7 @@ namespace ClothesWeb.Repository.Order
                     await command.ExecuteScalarAsync();
                 }
                 connection.Close();
-                return "Add to cart Successful";
+                return "Add to cart successful";
             }
             else
             {
@@ -51,7 +52,10 @@ namespace ClothesWeb.Repository.Order
             List<OrderDB> listOrder = new();
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "Select * From OrderClothes Where AccountId = " + accountId+ "and Status = N'Trong giỏ hàng'";
+                command.CommandText = "Select * From OrderClothes " +
+                    "INNER Join OrderStatus "+
+                    "On [OrderClothes].StatusId = [OrderStatus].id " +
+                    "Where AccountId = " + accountId+ " and StatusId = 1";
                 var reader = command.ExecuteReader();
                 while (await reader.ReadAsync())
                 {
@@ -61,6 +65,30 @@ namespace ClothesWeb.Repository.Order
             connection.Close();
             return listOrder;
         }
+
+        public async Task<bool> IsOrderExtis(OrderDB orderCreateInfo)
+        {
+            var connection = _context.GetDbConnection();
+            connection.Open();
+            using (var command = new SqlCommand())
+            {
+                command.Connection = (SqlConnection)connection;
+                command.CommandText = "Select * From OrderClothes Where AccountId = @AccountId and ClothesId = @ClothesId and Size = @Size";
+                command.Parameters.AddWithValue("@AccountId", orderCreateInfo.AccountId);
+                command.Parameters.AddWithValue("@ClothesId", orderCreateInfo.ClothesId);
+                command.Parameters.AddWithValue("@Size", orderCreateInfo.Size);
+                var reader = command.ExecuteReader();
+                await reader.ReadAsync();
+                if (reader.HasRows)
+                {
+                    connection.Close();
+                    return true;
+                }
+            }
+            connection.Close();
+            return false;
+        }
+
         public async Task<bool> UpdateOrderStatus(List<int> orderId)
         {
             var connection = _context.GetDbConnection();
@@ -71,13 +99,48 @@ namespace ClothesWeb.Repository.Order
                 {
                     command.Connection = (SqlConnection)connection;
                     command.CommandText =
-                     "Update OrderClothes SET Status= N'Đã thanh toán' WHERE id = @id";
+                     "Update OrderClothes SET Status= N'2' WHERE id = @id";
                     command.Parameters.AddWithValue("@id", id);
                     await command.ExecuteScalarAsync();
                 }
             }
             connection.Close();
             return true;
+        }
+        public async Task<string> UpdateOrderQuantity(OrderDB orderCreateInfo)
+        {
+            var oldQuantity = 0;
+            var connection = _context.GetDbConnection();
+            connection.Open();
+            using (var command = new SqlCommand())
+            {
+                command.Connection = (SqlConnection)connection;
+                command.CommandText = "Select Quantity From OrderClothes Where AccountId = @AccountId and ClothesId = @ClothesId and Size = @Size";
+                command.Parameters.AddWithValue("@AccountId", orderCreateInfo.AccountId);
+                command.Parameters.AddWithValue("@ClothesId", orderCreateInfo.ClothesId);
+                command.Parameters.AddWithValue("@Size", orderCreateInfo.Size);
+                var reader = command.ExecuteReader();
+                await reader.ReadAsync();
+                if (reader.HasRows)
+                {
+                    oldQuantity = (int)reader["Quantity"];
+                }
+            }
+            connection.Close();
+            connection.Open();
+            using (var command = new SqlCommand())
+            {
+                command.Connection = (SqlConnection)connection;
+                command.CommandText =
+                 "Update OrderClothes SET Quantity= @Quantity WHERE AccountId = @AccountId and ClothesId = @ClothesId and Size = @Size";
+                command.Parameters.AddWithValue("@Quantity", orderCreateInfo.Quantity + oldQuantity);
+                command.Parameters.AddWithValue("@AccountId", orderCreateInfo.AccountId);
+                command.Parameters.AddWithValue("@ClothesId", orderCreateInfo.ClothesId);
+                command.Parameters.AddWithValue("@Size", orderCreateInfo.Size);
+                await command.ExecuteScalarAsync();
+            }
+            connection.Close();
+            return "Add to cart successful";
         }
     }
 }
