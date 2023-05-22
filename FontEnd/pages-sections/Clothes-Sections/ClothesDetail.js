@@ -12,7 +12,6 @@ import { ENDPOINTS, createAPIEndpoint } from "../../api";
 const useStyles = makeStyles(styles);
 const BASE_URL = "/img/clothes/"
 export default function ClothesDetail(detail) {
-    console.log(detail)
     const classes = useStyles();
     const [quantity,setQuantity] = useState(1);
     const [modal, setModal] = useState(false);
@@ -127,5 +126,6 @@ export default function ClothesDetail(detail) {
                     </DialogActions>
                 </Dialog>
         </GridContainer>
+        
     )
 }

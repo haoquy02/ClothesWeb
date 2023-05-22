@@ -19,5 +19,6 @@ namespace ClothesWeb.Models
         public DbSet<AccountDB> Account { get; set; }
         public DbSet<ClothesDB> Clothes { get; set; }
         public DbSet<OrderDB> Order { get; set; }
+        public DbSet<VoucherDB> Voucher { get; set; }
     }
 }

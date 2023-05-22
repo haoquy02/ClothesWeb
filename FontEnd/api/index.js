@@ -8,15 +8,24 @@ export const ENDPOINTS = {
     getClothes:'Clothes/ClothesId',
     getCart:'Clothes/Cart',
     Order:'Order',
-    UpdateOrder:'Order/OrderId'
+    UpdateOrder:'Order/OrderId',
+    Voucher:'Voucher'
 }
 export const createAPIEndpoint = endpoint =>{
     let url = BASE_URL + 'api/' + endpoint + '/';
     return {
         fetch:()=> axios.get(url, {withCredentials: true }),
-        fetchWithName: (id) => axios.get(url, {withCredentials: true,
+        fetchWithName: (data) => axios.get(url, {withCredentials: true,
             params:{
-            ClothesId : id
+            ClothesId : data
+        }}),
+        fetchWithVoucher: (data) => axios.get(url, {withCredentials: true,
+            params:{
+            code : data
+        }}),
+        postWithVoucher: (data) => axios.post(url, {}, {withCredentials: true,
+            params:{
+            voucherId : data
         }}),
         post: data => axios.post(url, data, { withCredentials: true  }),
         put: (updatedRecord) => axios.put(url, updatedRecord, { withCredentials: true}),

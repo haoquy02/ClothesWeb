@@ -200,3 +200,8 @@ D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\refint\Clot
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\ClothesWeb.pdb
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\ClothesWeb.genruntimeconfig.cache
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\ref\ClothesWeb.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\MailKit.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\MimeKit.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll

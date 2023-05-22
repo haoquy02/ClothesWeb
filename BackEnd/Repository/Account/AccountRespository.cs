@@ -55,5 +55,23 @@ namespace ClothesWeb.Repository.Account
             connection.Close();
             return "Create Account Successful";
         }
+        public async Task<string> GetEmail(int accountd)
+        {
+            var connection = _context.GetDbConnection();
+            string email = string.Empty;
+            connection.Open();
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "Select email From Account Where id = '" + accountd + "'";
+                var reader = command.ExecuteReader();
+                await reader.ReadAsync();
+                if (reader.HasRows)
+                {
+                    email = reader["Email"].ToString();
+                }
+            }
+            connection.Close();
+            return email;
+        }
     }
 }

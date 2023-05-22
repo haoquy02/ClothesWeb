@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using ClothesWeb.Dto.Order;
 using ClothesWeb.Models;
 using ClothesWeb.Services.Account;
 using ClothesWeb.Services.Order;
@@ -40,9 +41,10 @@ namespace ClothesWeb.Controllers
             return await _orderService.GetAllOrdersById(accountId);
         }
         [HttpPut("OrderId")]
-        public async Task<ActionResult<bool>> UpdateOrderStatus(List<int> OrderId)
+        public async Task<ActionResult<bool>> UpdateOrderStatus(PayObject pay)
         {
-            return await _orderService.UpdateStatus(OrderId);
+            var accountId = int.Parse(Request.Cookies["id"]);
+            return await _orderService.UpdateStatusAndSendEmail(pay, accountId);
         }
     }
 }

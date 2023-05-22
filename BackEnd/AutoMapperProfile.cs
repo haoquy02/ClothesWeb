@@ -22,6 +22,8 @@ namespace ClothesWeb
             CreateMap<ClothesDB, ClothesCart>();
             //Order Mapping
             CreateMap<IDataRecord, OrderDB>();
+            //Voucher Mapping
+            CreateMap<IDataRecord, VoucherDB>();
         }
     }
 }

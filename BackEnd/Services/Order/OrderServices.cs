@@ -1,19 +1,23 @@
 ﻿using AutoMapper;
 using ClothesWeb.Models;
-using ClothesWeb.Repository.Clothes;
 using ClothesWeb.Repository.Order;
-using Microsoft.Identity.Client;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
+using ClothesWeb.Dto.Order;
+using ClothesWeb.Services.Account;
+using ClothesWeb.Repository.Account;
 
 namespace ClothesWeb.Services.Order
 {
     public class OrderServices:IOrderServices
     {
-        private readonly IMapper _mapper;
         private readonly IOrderRespository _orderRespository;
-        public OrderServices(IOrderRespository orderRespository, IMapper mapper)
+        private readonly IAccountRespository _accountRespository;
+        public OrderServices(IOrderRespository orderRespository, IMapper mapper, IAccountRespository accountRespository)
         {
             _orderRespository = orderRespository;
-            _mapper = mapper;
+            _accountRespository = accountRespository;
         }
         public async Task<string> CreateOrder(OrderDB orderInfo)
         {
@@ -32,9 +36,40 @@ namespace ClothesWeb.Services.Order
             return await _orderRespository.GetAllOrderById(accountId);
         }
 
-        public async Task<bool> UpdateStatus(List<int> orderId)
+        public void sendMail(string userEmail, List<string> clothesName, string sumMoney)
         {
-            return await _orderRespository.UpdateOrderStatus(orderId);
+            var email = new MimeMessage();
+            var body = "<h1>Thông tin đơn hàng</h1><br/>";
+            foreach (string i in clothesName) 
+            {
+                body += "<div> -" + i + "</div><br/>";
+            }
+            body += "<h1>" + sumMoney + "</h1>";
+            email.From.Add(new MailboxAddress("haoquy1", "haoquy1@gmail.com"));
+            email.To.Add(new MailboxAddress(userEmail.Split("@")[0], userEmail));
+
+            email.Subject = "Hóa đơn mua hàng";
+            email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = body
+
+            };
+
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Connect("smtp.gmail.com", 465, true);
+                // Note: only needed if the SMTP server requires authentication
+                smtp.Authenticate("haoquy1@gmail.com", "jnzrfmfjcnprphjt");
+
+                smtp.Send(email);
+                smtp.Disconnect(true);
+            }
+        }
+        public async Task<bool> UpdateStatusAndSendEmail(PayObject pay, int accountId)
+        {
+            var email = await _accountRespository.GetEmail(accountId);
+            sendMail(email, pay.ListClothesName, pay.sum);
+            return await _orderRespository.UpdateOrderStatus(pay.ListOrder);
         }
     }
 }

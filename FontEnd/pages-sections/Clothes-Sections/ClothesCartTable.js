@@ -9,25 +9,37 @@ import numeral from "numeral";
 
 const BASE_URL = "/img/clothes/"
 const useStyles = makeStyles(styles);
-export default function ClothesDetail(clothes) {
-    const [data, setData] = useState({image:"",name:"",prices:""});
+export default function ClothesDetail(props) {
+    const {clothes, UpdateSumMoney} = props;
+    const [data, setData] = useState({image:"",name:"",prices:"", type:""});
     const classes = useStyles();
     const imageClasses = classNames(
         classes.imgRaised,
         classes.imgFluid
-    ); 
+    );
     useEffect(()=> {
         createAPIEndpoint(ENDPOINTS.getCart)
-    .fetchWithName(clothes.detail.clothesId)
+    .fetchWithName(clothes.clothesId)
     .then(res => {
-        
         setData(res.data)
     })
     },[])
+    const UpdateSumMoneyfunc = (id) => {
+        var checkedBoxes = document.querySelector('input[id=CB'+id+']');
+        var money = parseInt(document.querySelector('td[id=money'+id+']').textContent.replaceAll(',',''));
+        if(checkedBoxes.checked)
+        {    
+            UpdateSumMoney(money)
+        }
+        else
+        {
+            UpdateSumMoney(-money)
+        }
+    }
     return (
         <>
             <td>
-                <input type="checkbox" value={clothes.detail.id} name="pick"></input>
+                <input type="checkbox" value={clothes.id} id={"CB"+clothes.id} name="pick" onChange={()=>UpdateSumMoneyfunc(clothes.id)}></input>
             </td>
             <td style={{ width: "10%" }}>
                 <Card>
@@ -37,20 +49,20 @@ export default function ClothesDetail(clothes) {
                         className={imageClasses} />
                 </Card>
             </td>
-            <td>
+            <td id={"name"+clothes.id}>
                 {data.clothesName}
             </td>
             <td>
-                {data.prices},000 VNĐ
+                {numeral(data.prices).format('0,0')} VNĐ
             </td>
             <td>
-                {clothes.detail.quantity}
+                {clothes.quantity}
+            </td>
+            <td className={data.type} id={"money"+clothes.id}>
+                {numeral(clothes.quantity * data.prices).format('0,0')} VNĐ
             </td>
             <td>
-                {numeral(clothes.detail.quantity * data.prices).format('0,0')},000 VNĐ
-            </td>
-            <td>
-                {clothes.detail.status}
+                {clothes.status}
             </td>
         </>
     )

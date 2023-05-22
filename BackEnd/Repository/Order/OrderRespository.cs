@@ -99,7 +99,7 @@ namespace ClothesWeb.Repository.Order
                 {
                     command.Connection = (SqlConnection)connection;
                     command.CommandText =
-                     "Update OrderClothes SET Status= N'2' WHERE id = @id";
+                     "Update OrderClothes SET StatusId= N'2' WHERE id = @id";
                     command.Parameters.AddWithValue("@id", id);
                     await command.ExecuteScalarAsync();
                 }
