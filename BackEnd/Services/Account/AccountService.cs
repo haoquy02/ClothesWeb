@@ -2,9 +2,11 @@
 using ClothesWeb.Dto.Account;
 using ClothesWeb.Models;
 using ClothesWeb.Repository.Account;
+using MailKit.Net.Smtp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -37,6 +39,28 @@ namespace ClothesWeb.Services.Account
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
+        public void SendVerification(string userEmail, string Code)
+        {
+            var email = new MimeMessage();
+            var body = "<h1>Mã xác nhận</h1><br/>" + "<div>" + Code + "</div>";
+            email.From.Add(new MailboxAddress("haoquy1", "haoquy1@gmail.com"));
+            email.To.Add(new MailboxAddress(userEmail.Split("@")[0], userEmail));
+            email.Subject = "Mã xác nhận tài khoản";
+            email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = body
+
+            };
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Connect("smtp.gmail.com", 465, true);
+                // Note: only needed if the SMTP server requires authentication
+                smtp.Authenticate("haoquy1@gmail.com", "jnzrfmfjcnprphjt");
+
+                smtp.Send(email);
+                smtp.Disconnect(true);
+            }
+        }
         public string CreateToken(AccountDB user)
         {
             var claims = new List<Claim>
@@ -62,24 +86,33 @@ namespace ClothesWeb.Services.Account
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<string> CreateAccount(CreateAccountDto accountCreateInfo)
+        public async Task<bool> CreateAccount(CreateAccountDto accountCreateInfo, string Code)
         {
-            string result;
             var account = _mapper.Map<AccountDB>(accountCreateInfo);
-            var temp = await _accountRespository.GetAccount(account);
-            if (temp.id == 0)
+            if (accountCreateInfo.VerificationCodeFromUser == Code)
             {
                 CreatePasswordHash(accountCreateInfo.Password, out byte[] passwordHash, out byte[] passwordSalt);
-                result = await _accountRespository.CreateAccountDB(account, passwordHash, passwordSalt);
-                return result;
+                return await _accountRespository.CreateAccountDB(account, passwordHash, passwordSalt); ;
             }
-            return "Account already exits";
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<bool> VerifyAccount(string userName)
+        {
+            var temp = await _accountRespository.GetAccount(userName);
+            if (temp.id == 0)
+            {
+                return true;
+            }
+            return false; ;
         }
         public async Task<GetAccountDto> Login(LoginAccountDto accountLoginInfo)
         {
             GetAccountDto accountInfo = new GetAccountDto();
             var account = _mapper.Map<AccountDB>(accountLoginInfo);
-            var temp = await _accountRespository.GetAccount(account);
+            var temp = await _accountRespository.GetAccount(account.Username);
             if (temp.id != 0)
             {
                 if (VerifyPasswordHash(accountLoginInfo.Password, temp.PasswordHash, temp.PasswordSalt))

@@ -1,6 +1,7 @@
 ﻿using ClothesWeb.Dto.Account;
 using ClothesWeb.Models;
 using ClothesWeb.Services.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,17 +20,55 @@ namespace ClothesWeb.Controllers
 
         [HttpPost]
         [Route("CreateAccount")]
-        public async Task<ActionResult<string>> PostCreateAccount(CreateAccountDto userCreateInfo)
+        public async Task<ActionResult<bool>> PostCreateAccount(CreateAccountDto userCreateInfo)
         {
-            string result;
+            bool result;
             if (userCreateInfo == null)
             {
                 return BadRequest();
             }
             else
             {
-                result = await _accountService.CreateAccount(userCreateInfo);
+                result = await _accountService.CreateAccount(userCreateInfo, userCreateInfo.VerificationCodeFromProgram);
                 return Ok(result);
+            }
+        }
+        [HttpGet]
+        [Route("Code")]
+        public ActionResult<bool> SendEmail(string email, string code)
+        {
+            if (email == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                _accountService.SendVerification(email, code);
+                return Ok(true);
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<bool>> CheckAccount(string userName)
+        {
+            if (userName == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var result = await _accountService.VerifyAccount(userName);
+                return Ok(result);
+            }
+        }
+        [HttpGet]
+        [Route("Authenticating")]
+        public async Task<ActionResult<bool>> CheckAuthenticating()
+        {
+            var accountId = Request.Cookies["id"];
+            if (accountId == null) { return false; }
+            else
+            {
+                return true;
             }
         }
         [HttpPost]
@@ -38,7 +77,7 @@ namespace ClothesWeb.Controllers
         {
             var options = new CookieOptions
             {
-                Expires = DateTime.Now.AddDays(5),
+                Expires = DateTime.Now.AddDays(1),
                 SameSite = SameSiteMode.None,
                 Secure = true,
                 HttpOnly = true,

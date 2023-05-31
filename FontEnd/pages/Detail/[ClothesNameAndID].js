@@ -7,7 +7,7 @@ import HeaderLinks from "/components/Header/HeaderLinks.js";
 import { useRouter } from "next/router";
 import { ENDPOINTS, createAPIEndpoint } from "../../api";
 import ClothesDetail from "../../pages-sections/Clothes-Sections/ClothesDetail"; 
-
+import Router from "next/router";
 const dashboardRoutes = [];
 export default function ClothesItem() {
   const [item, setItem] = useState(null);
@@ -15,10 +15,21 @@ export default function ClothesItem() {
   const { ClothesNameAndID } = router.query
   const ClothesID = ClothesNameAndID.split("-")[1]
   useEffect(()=> {
-    createAPIEndpoint(ENDPOINTS.getClothes)
-    .fetchWithName(ClothesID)
+    createAPIEndpoint(ENDPOINTS.Authenticating)
+    .fetch()
     .then(res => {
-      setItem(res.data)
+      if (res.data === true)
+      {
+        createAPIEndpoint(ENDPOINTS.getClothes)
+        .fetchWithName(ClothesID)
+        .then(res => {
+          setItem(res.data)
+        })
+      }
+      else
+        {
+            Router.push("/login/")
+        }
     })
   },[])
   return (

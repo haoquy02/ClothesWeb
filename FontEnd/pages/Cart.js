@@ -10,6 +10,7 @@ import ClothesCartTable from "../pages-sections/Clothes-Sections/ClothesCartTabl
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import numeral from "numeral";
+import Router from "next/router";
 const dashboardRoutes = [];
 const useStyles = makeStyles(styles);
 export default function ClothesDetail()
@@ -21,10 +22,21 @@ export default function ClothesDetail()
   const [addNotification, setAddNotification] = useState();
   const [sumMoney, setSumMoney] = useState(0)
   useEffect(()=> {
-    createAPIEndpoint(ENDPOINTS.Order)
-    .fetch()
-    .then(res => {
-        setClothes(res.data)
+    createAPIEndpoint(ENDPOINTS.Authenticating)
+      .fetch()
+      .then(res => {
+        if (res.data === true)
+        {
+          createAPIEndpoint(ENDPOINTS.Order)
+          .fetch()
+          .then(res => {
+              setClothes(res.data)
+          })
+        }
+        else
+        {
+            Router.push("/login/")
+        }
     })
   },[])
   const UpdateStatus = () => {

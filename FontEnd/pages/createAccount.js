@@ -22,7 +22,7 @@ import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Slide } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { ENDPOINTS, createAPIEndpoint } from "../api";
-import { Router } from "next/router";
+import Router from "next/router";
 const useStyles = makeStyles(styles);
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -30,55 +30,86 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function CreateAccountPage(props) {
     const [cardAnimaton, setCardAnimation] = useState("cardHidden");
     const { ...rest } = props;
-    const [userName, setUserName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [errorName, setErrorName] = useState(false)
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
     const [notification, setNotification] = useState(false)
     const [showError, setshowError] = useState(true)
     const [modal, setModal] = useState(false);
-    const [BtnColor, setBtnColor] = useState("success")
-    const validate = () => {
+    const [hiddenVerification, setHiddenVerification] = useState(false)
+    const [verificationCode, setVerificationCode] = useState(0)
+    const validate = (email) => {
       let temp = {}
       temp = (/\S+@\S+\.\S+/).test(email)?true:false
       setErrorEmail(!temp);
       return temp;
   }
-    const hadleInputUserNameChange = e =>{
-      const {value} = e.target
-      setUserName(value)
-    }
-
-    const hadleInputEmail = e =>{
-      const {value} = e.target
-      setEmail(value)
-    }
-
-    const hadleInputPassword= e =>{
-      const {value} = e.target
-      setPassword(value)
-    }
-
-    const hadleInputConfirmPassword= e =>{
-      const {value} = e.target
-      setConfirmPassword(value)
-    }
-
-      setTimeout(function () {
+    setTimeout(function () 
+    {
       setCardAnimation("");
     }, 700);
     const classes = useStyles();
+    const SendVerificationCode = (verificationCode) => {
+
+      var email = document.querySelector('input[id=Email]').value;
+      createAPIEndpoint(ENDPOINTS.Email)
+      .fetchWithEmail(email,verificationCode)
+      .then(res => {
+          if (res.data === true)
+          alert("Send verification code to email successful");
+      })
+    }
     const createAccount = () => {
+      var userName = document.querySelector('input[id=Username]').value;
+      var password = document.querySelector('input[id=pass]').value;
+      var email = document.querySelector('input[id=Email]').value;
+      var code = document.querySelector('input[id=verification]').value;
+      if (code !== "")
+      {
+        createAPIEndpoint(ENDPOINTS.createAccount)
+        .postCreateAccount(
+          {
+            userName: userName,
+            email: email,
+            password: password,
+            VerificationCodeFromUser: code,
+            VerificationCodeFromProgram:verificationCode.toString()
+          }
+        ).then(res =>{
+            if(res.data === false)
+            {
+              setNotification("Verification code does not match")  
+            }
+            else
+            {
+              setNotification("Create account successful")
+              setModal(true);
+              setHiddenVerification(true)
+              setTimeout(function () 
+              {
+                Router.push("/login/")
+              }, 900);
+            }
+        })
+      }
+      else
+      {
+        setNotification("Verification code cannot be empty")
+      }
+      setModal(true);
+    }
+    const checkAccount = () => {
+      var userName = document.querySelector('input[id=Username]').value;
+      var password = document.querySelector('input[id=pass]').value;
+      var email = document.querySelector('input[id=Email]').value;
+      var confirmPassword = document.querySelector('input[id=confirmPass]').value;
       if(userName === "")
       {
         setErrorName(true);
         setNotification("Username cannot empty")
         setshowError(false)
       }
-      else if (!validate)
+      else if (!validate(email))
       {
         setNotification("Email not validate")
         setshowError(false)
@@ -91,35 +122,24 @@ export default function CreateAccountPage(props) {
       }
       else
       {
-        createAPIEndpoint(ENDPOINTS.createAccount)
-        .postCreateAccount(
-          {
-            userName: userName,
-            email: email,
-            password: password
-          }
-        ).then(res =>{
-            if(res.data === "Account already exits")
+        createAPIEndpoint(ENDPOINTS.account)
+        .fetchWithUsername(userName).then(res =>{
+            if(res.data === false)
             {
-              setBtnColor("danger");
+              setNotification("Username already exits")
+              setHiddenVerification(true)
             }
             else
             {
-              setBtnColor("success");
+              setNotification("Verification code has send to your email")
+              setHiddenVerification(false)
+              var randomNumber = Math.floor(1000 + Math.random() * 9000);
+              console.log(randomNumber)
+              setVerificationCode(randomNumber);
+              SendVerificationCode(randomNumber);
             }
-            setNotification(res.data)
             setModal(true);
         })
-      }
-    }
-    const NavagationToLogin = () => {
-      if(BtnColor = "danger")
-      {
-          setModal(false)
-      }
-      else if (BtnColor = "success")
-      {
-        Router.push("/login");
       }
     }
     return (
@@ -156,7 +176,6 @@ export default function CreateAccountPage(props) {
                           fullWidth: true,
                         }}
                         inputProps={{
-                          onChange: hadleInputUserNameChange,
                           type: "text",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -174,7 +193,6 @@ export default function CreateAccountPage(props) {
                           fullWidth: true
                         }}
                         inputProps={{
-                          onChange: hadleInputEmail,
                           type: "email",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -193,7 +211,6 @@ export default function CreateAccountPage(props) {
                         }}
                         inputProps={{
                           type: "password",
-                          onChange: hadleInputPassword,
                           endAdornment: (
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
@@ -213,7 +230,6 @@ export default function CreateAccountPage(props) {
                         }}
                         inputProps={{
                           type: "password",
-                          onChange: hadleInputConfirmPassword,
                           endAdornment: (
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
@@ -235,7 +251,7 @@ export default function CreateAccountPage(props) {
                             Cancel
                           </Button>
                         </Link>
-                        <Button simple color="primary" size="lg" onClick={createAccount}>
+                        <Button simple color="primary" size="lg" onClick={checkAccount}>
                           Create Account
                         </Button>
                     </CardFooter>
@@ -278,10 +294,26 @@ export default function CreateAccountPage(props) {
                       <DialogActions
                         className={classes.modalFooter + " " + classes.modalFooterCenter}
                       >
-                        <Button color={BtnColor} onClick= {NavagationToLogin}>
-                          Yes
-                        </Button>
+                         <div hidden = {hiddenVerification} style={{width:"100%"}}>
+                            <CustomInput
+                            labelText="Verification Code"
+                            id="verification"
+                            
+                            error={errorPassword}     
+                            formControlProps={{
+                              fullWidth: true
+                            }}
+                            inputProps={{
+                              type: "text",
+                            }}
+                            />
+                        </div>
                       </DialogActions>
+                      <div hidden = {hiddenVerification} style={{marginLeft:"22%"}}>
+                        <Button id="sendEmail"  simple color="primary" size="lg"  onClick= {createAccount}>
+                              Confirm verification Code
+                        </Button>
+                      </div>
                     </Dialog>
                 </Card>
               </GridItem>

@@ -39,7 +39,6 @@ namespace ClothesWeb.Repository.Voucher
         }
         public async Task<bool> ApplyVoucher(int voucherId, int accountId)
         {
-            await UpdateAmount(voucherId);
             var connection = _context.GetDbConnection();
             connection.Open();
             using (var command = new SqlCommand())
@@ -82,7 +81,7 @@ namespace ClothesWeb.Repository.Voucher
                 command.Connection = (SqlConnection)connection;
                 command.CommandText =
                      "Update Voucher SET Amount= @Amount WHERE id = @id";
-                command.Parameters.AddWithValue("@Amount", --amount);
+                command.Parameters.AddWithValue("@Amount", amount--);
                 command.Parameters.AddWithValue("@id", voucherId);
                 await command.ExecuteScalarAsync(); ;
             }

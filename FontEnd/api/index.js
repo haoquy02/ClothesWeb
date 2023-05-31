@@ -2,6 +2,7 @@ import axios from 'axios'
 export const BASE_URL = 'https://localhost:7091/';
 export const ENDPOINTS = {
     createAccount: 'Account/CreateAccount',
+    account:'Account',
     login: 'Account/Login',
     createPost:'CreateClothes',
     getAllClothes:'Clothes',
@@ -9,7 +10,9 @@ export const ENDPOINTS = {
     getCart:'Clothes/Cart',
     Order:'Order',
     UpdateOrder:'Order/OrderId',
-    Voucher:'Voucher'
+    Voucher:'Voucher',
+    Email:'Account/Code',
+    Authenticating:'Account/Authenticating'
 }
 export const createAPIEndpoint = endpoint =>{
     let url = BASE_URL + 'api/' + endpoint + '/';
@@ -22,6 +25,15 @@ export const createAPIEndpoint = endpoint =>{
         fetchWithVoucher: (data) => axios.get(url, {withCredentials: true,
             params:{
             code : data
+        }}),
+        fetchWithEmail: (emailValue,codeValue) => axios.get(url, {withCredentials: true,
+            params:{
+            email : emailValue,
+            code: codeValue
+        }}),
+        fetchWithUsername: (data) => axios.get(url, {withCredentials: true,
+            params:{
+            userName : data
         }}),
         postWithVoucher: (data) => axios.post(url, {}, {withCredentials: true,
             params:{

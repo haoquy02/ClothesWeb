@@ -3,6 +3,7 @@ using ClothesWeb.Models;
 using ClothesWeb.Repository.Voucher;
 using ClothesWeb.Services.Order;
 using ClothesWeb.Services.Voucher;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 
@@ -10,6 +11,7 @@ using Microsoft.Identity.Client;
 
 namespace ClothesWeb.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VoucherController : ControllerBase

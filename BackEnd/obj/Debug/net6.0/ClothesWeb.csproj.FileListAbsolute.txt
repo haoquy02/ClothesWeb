@@ -111,7 +111,9 @@ D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\AutoMapper.
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Azure.Core.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Azure.Identity.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Humanizer.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\MailKit.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
@@ -141,6 +143,7 @@ D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Microsoft.I
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Microsoft.OpenApi.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\MimeKit.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Mono.TextTemplating.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\Scrutor.dll
@@ -156,6 +159,7 @@ D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Draw
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Memory.Data.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Runtime.Caching.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Security.Permissions.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Text.Encodings.Web.dll
@@ -176,6 +180,7 @@ D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\wi
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
@@ -200,8 +205,3 @@ D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\refint\Clot
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\ClothesWeb.pdb
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\ClothesWeb.genruntimeconfig.cache
 D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\obj\Debug\net6.0\ref\ClothesWeb.dll
-D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
-D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\MailKit.dll
-D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\MimeKit.dll
-D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
-D:\HomeWork\ClothesWebHardVesion\ClothesWeb\BackEnd\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll

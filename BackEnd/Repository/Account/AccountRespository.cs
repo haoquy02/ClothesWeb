@@ -16,14 +16,14 @@ namespace ClothesWeb.Repository.Account
             _mapper = mapper;
         }
 
-        public async Task<AccountDB> GetAccount(AccountDB accountInfo)
+        public async Task<AccountDB> GetAccount(string Username)
         {
             var connection = _context.GetDbConnection();
             AccountDB account = new AccountDB();
             connection.Open();
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "Select * From Account Where Username = '" + accountInfo.Username + "'";
+                command.CommandText = "Select * From Account Where Username = '" + Username + "'";
                 var reader = command.ExecuteReader();
                 await reader.ReadAsync();
                 if (reader.HasRows)
@@ -35,7 +35,7 @@ namespace ClothesWeb.Repository.Account
             return account;
         }
 
-        public async Task<string> CreateAccountDB(AccountDB accountCreateInfo, byte[] passwordHash, byte[] passwordSalt)
+        public async Task<bool> CreateAccountDB(AccountDB accountCreateInfo, byte[] passwordHash, byte[] passwordSalt)
         {
             accountCreateInfo.PasswordHash = passwordHash;
             accountCreateInfo.PasswordSalt = passwordSalt;
@@ -53,7 +53,7 @@ namespace ClothesWeb.Repository.Account
                 await command.ExecuteScalarAsync();
             }
             connection.Close();
-            return "Create Account Successful";
+            return true;
         }
         public async Task<string> GetEmail(int accountd)
         {
