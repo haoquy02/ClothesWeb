@@ -1,10 +1,9 @@
 # About my project:
-- Font-End: React.js
+- Front-End: React.js
 - Back-end: ASP.NET core 6.0
 - Data base: SQL Sever
 # About each page:
 - Using Next.js
-- Font-end display already implemented by Create Time: https://demos.creative-tim.com/nextjs-material-kit/components
 ![Login2](https://github.com/haoquy02/ClothesWeb/assets/73586324/7cbc9ff4-b497-463b-bc18-e65f6c04495f)
 - Using axios to send/get API
 - After check if data is not valid, page will send an API to find user information. If data in database match with data user type-> Login successfull
